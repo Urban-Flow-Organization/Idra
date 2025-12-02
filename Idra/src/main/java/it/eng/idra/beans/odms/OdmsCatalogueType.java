@@ -47,5 +47,7 @@ public enum OdmsCatalogueType {
   /** The web. */
   WEB,
   /** The Zenodo. */
-  ZENODO
+  ZENODO,
+  /** The Geonetwork. */
+  GEONETWORK_ISO19139
 }
