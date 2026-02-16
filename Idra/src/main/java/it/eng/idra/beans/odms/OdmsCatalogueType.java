@@ -49,5 +49,7 @@ public enum OdmsCatalogueType {
   /** The Zenodo. */
   ZENODO,
   /** The Geonetwork. */
-  GEONETWORK_ISO19139
+  GEONETWORK_ISO19139,
+  /** The NBSRegistry.  */
+  NBS_REGISTRY
 }

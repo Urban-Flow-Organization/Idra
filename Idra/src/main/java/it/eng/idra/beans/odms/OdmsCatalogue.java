@@ -235,10 +235,19 @@ public class OdmsCatalogue {
   @Expose
   private String category;
 
-  /** The communities. */
-  @Column(name = "communities", unique = false, nullable = true)
-  @SerializedName(value = "communities")
-  private String communities;
+    /** The communities. */
+    @Column(name = "communities", unique = false, nullable = true)
+    @SerializedName(value = "communities")
+    private String communities;
+    
+    
+    /** Generic connector parameters (JSON string). Used by specific connectors (NBSRegistry) 
+     * to store auth + filter + paging 
+     */
+    @Column (name= "connector_params", columnDefinition= "TEXT", nullable= true)
+    @SerializedName(value = "connectorParams")
+    @Expose
+    private String connectorParams; 
 
   /** The additional config. */
   @OneToOne(orphanRemoval = true, cascade = { CascadeType.ALL, CascadeType.REMOVE })
@@ -1354,6 +1363,16 @@ public class OdmsCatalogue {
    */
   public void setCommunities(String communities) {
     this.communities = communities;
+  }
+  
+  
+
+  public String getConnectorParams() {
+	return connectorParams;
+  }
+
+  public void setConnectorParams(String connectorParams) {
+	this.connectorParams = connectorParams;
   }
 
   /**
