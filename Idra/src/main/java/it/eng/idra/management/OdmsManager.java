@@ -97,7 +97,7 @@ public class OdmsManager {
       ODMSConnectorsList.put(OdmsCatalogueType.JUNAR, "it.eng.idra.connectors.JunarConnector");
       ODMSConnectorsList.put(OdmsCatalogueType.ZENODO, "it.eng.idra.connectors.ZenodoConnector");
       ODMSConnectorsList.put(OdmsCatalogueType.GEONETWORK_ISO19139, "it.eng.idra.connectors.GeoNetworkConnector");
-
+      ODMSConnectorsList.put(OdmsCatalogueType.NBS_REGISTRY, "it.eng.idra.connectors.NbsRegistryConnector");
     } catch (Exception e) {
       e.printStackTrace();
     }

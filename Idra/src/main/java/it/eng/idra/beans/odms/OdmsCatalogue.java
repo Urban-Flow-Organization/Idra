@@ -219,6 +219,15 @@ public class OdmsCatalogue {
     @Column(name = "communities", unique = false, nullable = true)
     @SerializedName(value = "communities")
     private String communities;
+    
+    
+    /** Generic connector parameters (JSON string). Used by specific connectors (NBSRegistry) 
+     * to store auth + filter + paging 
+     */
+    @Column (name= "connector_params", columnDefinition= "TEXT", nullable= true)
+    @SerializedName(value = "connectorParams")
+    @Expose
+    private String connectorParams; 
 
   /** The additional config. */
   @OneToOne(orphanRemoval = true, cascade = { CascadeType.ALL, CascadeType.REMOVE })
@@ -284,7 +293,7 @@ public class OdmsCatalogue {
       OdmsCatalogueType nodeType, OdmsCatalogueFederationLevel federationLevel, int datasetCount,
       OdmsCatalogueState nodeState, ZonedDateTime registerDate, ZonedDateTime lastUpdateDate,
       int refreshPeriod, String description, String image, int rdfCount, String location,
-      String locationDescription,String communities) {
+      String locationDescription,String communities, String connectorparams) {
 
     this.setName(name);
     this.setHost(host);
@@ -307,6 +316,7 @@ public class OdmsCatalogue {
     this.setLocation(location);
     this.setLocationDescription(locationDescription);
     this.setCommunities(communities);
+    this.setConnectorParams(connectorparams);
     //this.setFederatedInOrion(false);
   }
 
@@ -336,7 +346,7 @@ public class OdmsCatalogue {
       OdmsCatalogueType nodeType, OdmsCatalogueFederationLevel integrationLevel, int datasetCount,
       OdmsCatalogueState nodeState, ZonedDateTime registerDate, ZonedDateTime lastUpdateDate,
       int refreshPeriod, String description, String image, int rdfCount, String location,
-      String locationDescription,String communities) {
+      String locationDescription,String communities, String connectorParams) {
 
     this.setId(id);
     this.setName(name);
@@ -360,6 +370,7 @@ public class OdmsCatalogue {
     this.setLocation(location);
     this.setLocationDescription(locationDescription);
     this.setCommunities(communities);
+    this.setConnectorParams(connectorParams);
     //this.setFederatedInOrion(false);
   }
 
@@ -389,7 +400,7 @@ public class OdmsCatalogue {
       OdmsCatalogueType nodeType, OdmsCatalogueFederationLevel integrationLevel, int datasetCount,
       OdmsCatalogueState nodeState, ZonedDateTime registerDate, ZonedDateTime lastUpdateDate,
       int refreshPeriod, String description, String image, int rdfCount, int startDataset,
-      String location, String locationDescription,String communities) {
+      String location, String locationDescription,String communities, String connectorParams) {
 
     this.setId(id);
     this.setName(name);
@@ -413,6 +424,7 @@ public class OdmsCatalogue {
     this.setLocation(location);
     this.setLocationDescription(locationDescription);
     this.setCommunities(communities);
+    this.setConnectorParams(connectorParams);
     //this.setFederatedInOrion(false);
   }
 
@@ -1134,6 +1146,16 @@ public class OdmsCatalogue {
    */
   public void setCommunities(String communities) {
     this.communities = communities;
+  }
+  
+  
+
+  public String getConnectorParams() {
+	return connectorParams;
+  }
+
+  public void setConnectorParams(String connectorParams) {
+	this.connectorParams = connectorParams;
   }
 
   /**
