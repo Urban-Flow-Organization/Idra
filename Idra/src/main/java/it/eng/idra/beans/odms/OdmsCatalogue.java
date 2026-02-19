@@ -373,6 +373,7 @@ public class OdmsCatalogue {
    * @param record                the record
    * @param service               the service
    * @param temporalCoverage      the temporal coverage
+   * @param ConnectorParams        the connector parameters (JSON string)
    */
   // Throws exception if the type of new object is not allowed
   public OdmsCatalogue(String name, String host, String homepage, String apiKey,
@@ -382,7 +383,7 @@ public class OdmsCatalogue {
       String locationDescription, String communities, List<String> applicableLegislation,
       FoafAgent creator, List<DctLocation> geographicalCoverage,
       List<DcatCatalogueRecord> record, List<DcatDataService> service,
-      List<DctPeriodOfTime> temporalCoverage) {
+      List<DctPeriodOfTime> temporalCoverage, String ConnectorParams) {
 
     this.setName(name);
     this.setHost(host);
@@ -425,6 +426,7 @@ public class OdmsCatalogue {
     setRecord(record);
     setService(service);
     setTemporalCoverage(temporalCoverage);
+    setConnectorParams(ConnectorParams);
   }
 
   /**
@@ -453,6 +455,7 @@ public class OdmsCatalogue {
    * @param record                the record
    * @param service               the service
    * @param temporalCoverage      the temporal coverage
+   * @param ConnectorParams        the connector parameters (JSON string) 
    */
   // Throws exception if the type of new object is not allowed
   public OdmsCatalogue(int id, String name, String host, String homepage, String apiKey,
@@ -462,7 +465,7 @@ public class OdmsCatalogue {
       String locationDescription, String communities, List<String> applicableLegislation,
       FoafAgent creator, List<DctLocation> geographicalCoverage,
       List<DcatCatalogueRecord> record, List<DcatDataService> service,
-      List<DctPeriodOfTime> temporalCoverage) {
+      List<DctPeriodOfTime> temporalCoverage, String connectorParams) {
 
     this.setId(id);
     this.setName(name);
@@ -506,6 +509,7 @@ public class OdmsCatalogue {
     setRecord(record);
     setService(service);
     setTemporalCoverage(temporalCoverage);
+    setConnectorParams(connectorParams);
   }
 
   /**
@@ -535,6 +539,7 @@ public class OdmsCatalogue {
    * @param record                the record
    * @param service               the service
    * @param temporalCoverage      the temporal coverage
+   * 
    */
   public OdmsCatalogue(int id, String name, String host, String homepage, String apiKey,
       OdmsCatalogueType nodeType, OdmsCatalogueFederationLevel integrationLevel, int datasetCount,
