@@ -207,13 +207,13 @@ public class NbsRegistryConnector implements IodmsConnector {
         DctLocation spatial = null;
         if (nbs.geoLocation != null && nbs.geoLocation.latitude != null && nbs.geoLocation.longitude != null) {
             String point = nbs.geoLocation.latitude + "," + nbs.geoLocation.longitude;
-            spatial = new DctLocation(DCTerms.spatial.getURI(), "", safe(nbs.geoLocation.address, ""), point, nodeId);
+            spatial = new DctLocation(DCTerms.spatial.getURI(), "", safe(nbs.geoLocation.address, ""), point, nodeId, point, point);
         }
 
         FoafAgent publisher = new FoafAgent(
                 DCTerms.publisher.getURI(),
                 null,
-                safe(node.getPublisherName(), "Urbreath"),
+                List.of(safe(node.getPublisherName(), "Urbreath")),
                 null, null, null, null,
                 nodeId
         );
@@ -284,7 +284,7 @@ public class NbsRegistryConnector implements IodmsConnector {
                 new ArrayList<String>(),       // otherIdentifier
                 new ArrayList<String>(),       // sample
                 new ArrayList<String>(),       // source
-                spatial,
+                (spatial == null ? new ArrayList<DctLocation>() : List.of(spatial)),
                 null,                          // temporal
                 "",                            // type
                 "",                            // version
@@ -292,7 +292,13 @@ public class NbsRegistryConnector implements IodmsConnector {
                 null,                          // rightsHolder
                 null,                          // creator
                 subjects,
-                new ArrayList<String>()        // relatedResources
+                new ArrayList<String>(),        // relatedResources
+                new java.util.ArrayList<String>(),  //ApplacableLegislation
+                null,						  // inSeries
+                null,                           // qualifiedRelation
+                "",							// temporalResolution
+                new ArrayList<String>(),         // wasGeneratedBy
+                new ArrayList<String>()          // HVDCategory
         );
     }
 
