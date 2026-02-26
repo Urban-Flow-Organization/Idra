@@ -227,5 +227,54 @@ public final class NbsRegistryConnectorUtils {
     private static boolean isBlank(String s) {
       return s == null || s.trim().isEmpty();
     }
+    
+    public static String normalizeKeywordsInJson(String json) {
+      if (json == null || json.isBlank()) return json;
+      try {
+        com.google.gson.JsonElement el = com.google.gson.JsonParser.parseString(json);
+        if (!el.isJsonObject()) return json;
+        com.google.gson.JsonObject root = el.getAsJsonObject();
+        if (!root.has("data") || !root.get("data").isJsonObject()) return json;
+        com.google.gson.JsonObject data = root.getAsJsonObject("data");
+
+        // normalize both keywords and problems arrays (objects -> strings)
+        normalizeArrayObjectToString(data, "keywords");
+        normalizeArrayObjectToString(data, "problems");
+
+        return root.toString();
+      } catch (Exception ex) {
+        return json;
+      }
+    }
+
+    private static void normalizeArrayObjectToString(com.google.gson.JsonObject data, String arrayName) {
+      if (!data.has(arrayName) || !data.get(arrayName).isJsonArray()) return;
+      com.google.gson.JsonArray orig = data.getAsJsonArray(arrayName);
+      com.google.gson.JsonArray normalized = new com.google.gson.JsonArray();
+
+      for (com.google.gson.JsonElement e : orig) {
+        if (e.isJsonPrimitive() && e.getAsJsonPrimitive().isString()) {
+          normalized.add(e.getAsJsonPrimitive().getAsString());
+        } else if (e.isJsonObject()) {
+          com.google.gson.JsonObject obj = e.getAsJsonObject();
+          String val = null;
+          // common candidate fields for human-readable string
+          String[] candidates = new String[] { "label", "name", "keyword", "description", "text", "title", "value" };
+          for (String k : candidates) {
+            if (obj.has(k) && obj.get(k).isJsonPrimitive()) {
+              try { val = obj.get(k).getAsString(); } catch (Exception ignore) { val = null; }
+              if (val != null) break;
+            }
+          }
+          if (val != null) normalized.add(val);
+          else normalized.add(e.toString());
+        } else {
+          normalized.add(e.toString());
+        }
+      }
+
+      data.add(arrayName, normalized);
+    }
+
 
 }

@@ -490,7 +490,7 @@ public class NbsRegistryConnector implements IodmsConnector {
                 .build();
 
         HttpResponse<String> resp = http.send(req, HttpResponse.BodyHandlers.ofString());
-        
+
         //logger 800A
         logger.info("[NBS] Detail response: id={}, status={}, contentType={}",
                 id, resp.statusCode(),
@@ -502,7 +502,9 @@ public class NbsRegistryConnector implements IodmsConnector {
         
         handleHttpErrors(resp);
 
-        return gson.fromJson(resp.body(), NbsDetailResponse.class);
+        String body = resp.body();
+        String normalized = NbsRegistryConnectorUtils.normalizeKeywordsInJson(body);
+        return gson.fromJson(normalized, NbsDetailResponse.class);
     }
 
     private void handleHttpErrors(HttpResponse<String> resp) throws Exception {
