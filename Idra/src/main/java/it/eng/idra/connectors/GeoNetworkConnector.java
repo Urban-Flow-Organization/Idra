@@ -1,3 +1,4 @@
+
 package it.eng.idra.connectors;
 
 import it.eng.idra.beans.dcat.DcatDataset;
@@ -362,19 +363,48 @@ public class GeoNetworkConnector implements IodmsConnector {
         if (updateDate == null || updateDate.isEmpty()) updateDate = "1970-01-01T00:00:00Z";
 
         // --- Spatial extent (EX_GeographicBoundingBox) ---
-        DctLocation spatialCoverage = null;
-        org.w3c.dom.NodeList bboxes = recordElem.getElementsByTagNameNS(GMD_NS, "EX_GeographicBoundingBox");
-        if (bboxes.getLength() > 0) {
-            Element bbox = (Element) bboxes.item(0);
-            String west  = safeIsoText(bbox, new String[][]{{"gmd:westBoundLongitude","gco:Decimal"}});
-            String east  = safeIsoText(bbox, new String[][]{{"gmd:eastBoundLongitude","gco:Decimal"}});
-            String south = safeIsoText(bbox, new String[][]{{"gmd:southBoundLatitude","gco:Decimal"}});
-            String north = safeIsoText(bbox, new String[][]{{"gmd:northBoundLatitude","gco:Decimal"}});
-            if (west!=null && east!=null && south!=null && north!=null) {
-                String bboxValue = west + "," + south + "," + east + "," + north;
-                spatialCoverage = new DctLocation(DCTerms.spatial.getURI(), "", "", bboxValue,nodeId,bboxValue, "");
-            }
-        }
+       DctLocation spatialCoverage = null;
+org.w3c.dom.NodeList bboxes = recordElem.getElementsByTagNameNS(GMD_NS, "EX_GeographicBoundingBox");
+if (bboxes.getLength() > 0) {
+    Element bbox = (Element) bboxes.item(0);
+    
+    // --- Estrai valori e fallback sicuro
+    String west  = safeIsoText(bbox, new String[][]{{"gmd:westBoundLongitude","gco:Decimal"}});
+    String east  = safeIsoText(bbox, new String[][]{{"gmd:eastBoundLongitude","gco:Decimal"}});
+    String south = safeIsoText(bbox, new String[][]{{"gmd:southBoundLatitude","gco:Decimal"}});
+    String north = safeIsoText(bbox, new String[][]{{"gmd:northBoundLatitude","gco:Decimal"}});
+    
+    // fallback su "0" se uno dei valori è null
+    String westVal  = (west  != null && !west.isEmpty())  ? west  : "0";
+    String eastVal  = (east  != null && !east.isEmpty())  ? east  : "0";
+    String southVal = (south != null && !south.isEmpty()) ? south : "0";
+    String northVal = (north != null && !north.isEmpty()) ? north : "0";
+    
+    // --- BBox come stringa semplice
+    String bboxValue = westVal + "," + southVal + "," + eastVal + "," + northVal;
+    
+    // --- Geometry in WKT (POLYGON)
+    String wktPolygon = "POLYGON((" +
+        westVal  + " " + southVal + "," +
+        eastVal  + " " + southVal + "," +
+        eastVal  + " " + northVal + "," +
+        westVal  + " " + northVal + "," +
+        westVal  + " " + southVal +
+    "))";
+    
+    // --- Crea DctLocation con geometry WKT
+    spatialCoverage = new DctLocation(
+        DCTerms.spatial.getURI(), // URI
+        "",                        // geographicalIdentifier
+        "",                        // geographicalName
+        wktPolygon,                // geometry in WKT
+        nodeId,                    // node ID
+        bboxValue,                 // bbox come stringa
+        ""                         // centroid
+    );
+}
+
+        
 
         // --- Temporal extent (gml:TimePeriod) ---
         DctPeriodOfTime temporalCoverage = null;
