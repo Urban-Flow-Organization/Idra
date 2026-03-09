@@ -271,16 +271,16 @@ public class GeoNetworkConnector implements IodmsConnector {
         // --- Landing page
         String landing = firstNonEmpty(
             safeIsoText(recordElem, new String[][]{
-                {"gmd:identificationInfo","gmd:MD_DataIdentification","gmd:citation","gmd:CI_Citation","gmd:identifier","gmd:MD_Identifier","gmd:code","gco:CharacterString"}
+            	{"gmd:fileIdentifier","gco:CharacterString"}
             }),
             safeIsoText(recordElem, new String[][]{
-                {"gmd:identificationInfo","gmd:MD_DataIdentification","gmd:citation","gmd:CI_Citation","gmd:identifier","gmd:MD_Identifier","gmd:code","gmx:Anchor"}
+                {"gmd:fileIdentifier","gmx:Anchor"}
             })
         );
         if (landing != null && !landing.isEmpty() && !landing.startsWith("http")) {
-            landing = "https://" + landing; // normalize if scheme is missing
+           // landing = "https://" + landing; // normalize if scheme is missing
+        	landing = this.node.getHomepage() + "/geonetwork/srv/eng/catalog.search#/metadata/" + landing; // 
         }
-
 
         // --- Description / Abstract ---
         String description = safeIsoText(recordElem, new String[][]{
