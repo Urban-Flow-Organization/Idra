@@ -94,21 +94,6 @@ Before start to contribute, please read and sign the [Contributor License Agreem
 
 <a name="support"></a>
 
-## Support / Contact
-
-Any feedback on this documentation is highly welcome, including bugs, typos and
-suggestions. You can use GitHub [issues](https://github.com/OPSILab/Idra/issues)
-to provide feedback.
-
--   Idra support: [_idra@eng.it_](mailto:idra@eng.it)
-
-##### Contacts
-
--   Martino Maggio: [_martino.maggio@eng.it_](mailto:martino.maggio@eng.it)
--   Giuseppe Ciulla: [_giuseppe.ciulla@eng.it_](mailto:giuseppe.ciulla@eng.it)
-
----
-
 ## License
 
 Idra - Open Data Federation Platform is licensed under [Affero General Public License (GPL)
