@@ -49,7 +49,7 @@ Catalogue entry for
 |--------------|--------------------------------------------|
 | Dependencies | MongoDB, PostgreSQL, NGSI Broker, Orion   |
 | Contacts     | giovanniluca.dacierno@eng.it, rita.gaeta@eng.it |
-| License      | Open-source                                |
+| License      | Open-source AGPL 3.0                                |
 
 | :books: [Documentation](https://idra.rtfd.io/) | :mortar_board: [Academy](https://fiware-academy.readthedocs.io/en/latest/data-publication/idra/) |:whale: [Docker Hub](https://hub.docker.com/r/idraopendata/idra) | :dart: [Roadmap](./roadmap.md) |
 |---|---|---|---|
